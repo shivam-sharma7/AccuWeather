@@ -1,0 +1,28 @@
+name: Node Application Build
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+     matrix:
+       os: [ubuntu-latest, windows-latest]
+       version: [14.x, 16.x, 18.x]
+    runs-on: ${{matrix.os}}
+
+    steps:
+      - name: Checkout repository
+        uses: action/checkout@v3
+
+      - name: Setup Node
+        uses: action/setup-node@v3
+        with:
+         version:${{matrix.version}}
+
+      - name: Install dependencies
+        run: npm install
